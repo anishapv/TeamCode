@@ -16,17 +16,19 @@ import static org.firstinspires.ftc.teamcode.SCHSConstants.*;
 
 public class SCHSDrive {
 
-    private SCHSDcMotor driveMotors = null;
+    private SCHSDcMotor driveMotors;
     private BNO055IMU.Parameters gyroParameters;
     private BNO055IMU imu;
-
-    private DcMotor motorLeft = driveMotors.getMotorleft();
-    private DcMotor motorRight = driveMotors.getMotorRight();
+    private DcMotor motorLeft;
+    private DcMotor motorRight;
 
     public void initialize(HardwareMap hardwareMap) {
 
         driveMotors = new SCHSDcMotor();
         driveMotors.initialize(hardwareMap);
+
+        motorLeft = driveMotors.getMotorleft();
+        motorRight = driveMotors.getMotorRight();
 
         gyroParameters = new BNO055IMU.Parameters();
 
@@ -106,12 +108,12 @@ public class SCHSDrive {
         Log.d("Status" , "SCHSMotor:gyroDrive: newLeftTarget " + newLeftTarget);
         Log.d("Status" , "SCHSMotor:gyroDrive: newRightTarget " + newRightTarget);
 
+        motorLeft.setTargetPosition(newLeftTarget);
+        motorRight.setTargetPosition(newRightTarget);
+
         // Set Target and Turn On RUN_TO_POSITION
         motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        motorLeft.setTargetPosition(newLeftTarget);
-        motorRight.setTargetPosition(newRightTarget);
 
         // start motion.
         speed = Range.clip(Math.abs(speed), -1.0, 1.0);
